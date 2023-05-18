@@ -21,7 +21,8 @@ const Login = () => {
         email,
         password,
       });
-      localStorage.setItem("refresh_token", data.data.refresh_token);
+      localStorage.setItem("refreshToken", data.data.refresh_token);
+      localStorage.setItem("accessToken", data.data.token);
       toast.success("Login Successfully !");
       navigate("/");
     } catch (error) {

@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CartTicket from "../Components/CartTicket/CartTicket";
 import Hero from "../Components/Hero/Hero";
 import Main from "../Layouts/Main";
 import { recommendation } from "../Assets/data/static";
-
+import axios from "axios";
+import axiosApiInstance from "../utils/axiosApiInstance";
 const HomePage = () => {
+  useEffect(() => {
+    const data = axiosApiInstance
+      .get("/user/profile")
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <Main activeNavbar={1}>
       <Hero></Hero>
