@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import DropDown from "./DropDown";
 
 const Header = ({ active }) => {
+  const { user, isAuthenticated } = useSelector((state) => state.user);
+  const [open, setOpen] = useState(false);
   return (
     <nav className="bg-gray-800 py-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,7 +55,7 @@ const Header = ({ active }) => {
               </div>
             </div>
           </div>
-          <div className="flex items-center">
+          <div className="flex relative">
             <form className="w-full max-w-sm">
               <div className="flex items-center  py-2">
                 <input
@@ -60,9 +65,26 @@ const Header = ({ active }) => {
                 />
               </div>
             </form>
-            <button className="ml-4 flex-shrink-0 bg-white hover:bg-gray-100 text-gray-800 font-bold py-2 px-4 rounded">
-              Log in
-            </button>
+            {isAuthenticated ? (
+              <>
+                <img
+                  src={user?.avatar}
+                  alt={user?.username}
+                  onClick={() => setOpen(!open)}
+                  className="w-[40px] text-end justify-end h-[40px] rounded-full border-[3px] border-gray-200 cursor-pointer"
+                />
+                {open && <DropDown></DropDown>}
+              </>
+            ) : (
+              <>
+                <Link
+                  to={"/login"}
+                  className="ml-4 flex-shrink-0 bg-white hover:bg-gray-100 text-gray-800 font-bold py-2 px-4 rounded"
+                >
+                  Log in
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

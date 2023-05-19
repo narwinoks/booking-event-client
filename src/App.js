@@ -9,8 +9,14 @@ import {
 } from "./Routes/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
+import Store from "./Redux/store";
+import { loadUser } from "./Redux/actions/userAction";
 
 function App() {
+  useEffect(() => {
+    Store.dispatch(loadUser());
+  }, []);
   return (
     <>
       <Routes>

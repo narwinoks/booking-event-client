@@ -10,6 +10,10 @@ const refreshAccessToken = async () => {
   try {
     const refreshToken = getRefreshToken();
     const decode = jwtDecode(refreshToken);
+    const expired = decode.exp;
+    const currentDate = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(currentDate.getDate() + 1);
     const response = await axios.get(`${server}/auth/refresh-token`, {
       headers: {
         Authorization: `${refreshToken}`,
@@ -17,8 +21,15 @@ const refreshAccessToken = async () => {
       },
     });
     const newAccessToken = response.data.data.token;
-    // Store the new access token in your preferred storage (e.g., local storage)
-    localStorage.setItem("accessToken", newAccessToken);
+    const refreshTokenUpdate = response.data.data.refresh_token;
+    if (expired < Math.floor(tomorrow.getTime() / 1000)) {
+      console.log("expired access token");
+      localStorage.setItem("accessToken", newAccessToken);
+      localStorage.setItem("refreshToken", refreshTokenUpdate);
+    } else {
+      console.log("not expired access token");
+      localStorage.setItem("accessToken", newAccessToken);
+    }
     return newAccessToken;
   } catch (error) {
     // Handle the token refresh error
