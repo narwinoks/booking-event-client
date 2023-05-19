@@ -8,7 +8,7 @@ const CartTicket = ({ data }) => {
       <div className="flex items-center justify-center h-32 mb-4">
         <img
           className="object-cover w-full h-full"
-          src={data.image}
+          src={data.thumbnail}
           alt={data.name}
         />
       </div>
@@ -27,7 +27,7 @@ const CartTicket = ({ data }) => {
             Harga mulai
           </label>
           <span className="text-gray-700 font-medium inline-block">
-            IDR 50.0000
+            IDR {data.price}
           </span>
         </div>
         <button className="px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
