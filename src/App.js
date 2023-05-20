@@ -6,6 +6,7 @@ import {
   HomePage,
   ExplorePage,
   ActivationPage,
+  EventDetailPage,
 } from "./Routes/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,6 +25,10 @@ function App() {
         <Route element={<LoginPage></LoginPage>} path="/login"></Route>
         <Route element={<HomePage></HomePage>} path="/"></Route>
         <Route element={<ExplorePage></ExplorePage>} path="/explore"></Route>
+        <Route
+          element={<EventDetailPage></EventDetailPage>}
+          path="/event/:slug"
+        ></Route>
         <Route
           element={<ActivationPage></ActivationPage>}
           path="/activation/:activation_token"

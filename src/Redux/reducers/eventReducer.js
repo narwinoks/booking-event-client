@@ -17,4 +17,18 @@ export const eventReducer = createReducer(initialState, {
     state.error = action.payload;
     state.isAuthenticated = false;
   },
+
+  ShowEventRequest: (state) => {
+    state.loading = true;
+  },
+  ShowEventSuccess: (state, action) => {
+    state.isAuthenticated = true;
+    state.loading = false;
+    state.event = action.payload;
+  },
+  ShowEventFail: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+    state.isAuthenticated = false;
+  },
 });

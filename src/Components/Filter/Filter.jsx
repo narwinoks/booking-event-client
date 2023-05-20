@@ -19,8 +19,10 @@ const Filter = ({
     dispatch(getLocation());
   }, [dispatch]);
   const handlePriceChange = (value) => {
-    setMinPrice(value.min);
-    setMaxPrice(value.max);
+    setTimeout(() => {
+      setMinPrice(value.min);
+      setMaxPrice(value.max);
+    }, 2000);
     setPriceRange(value);
   };
   const handlerLocation = (value) => {
