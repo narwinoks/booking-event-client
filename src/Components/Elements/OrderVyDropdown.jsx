@@ -1,18 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaSort } from "react-icons/fa";
 
-const OrderByDropdown = () => {
+const OrderByDropdown = ({ setOrder }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("Name");
+  const [selectedOption, setSelectedOption] = useState("Date");
 
-  const options = ["Name", "Date", "Price"];
+  const options = ["Date", "Name", "Price"];
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
 
+  useEffect(() => {
+    setOrder(options[0].toLowerCase());
+  });
   const handleOptionClick = (option) => {
     setSelectedOption(option);
+    setOrder(option.toLowerCase());
     setIsOpen(false);
   };
 

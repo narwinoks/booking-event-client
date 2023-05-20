@@ -1,20 +1,21 @@
 import axiosApiInstance from "../../utils/axiosApiInstance";
 
-export const getEvents = (params) => async (dispatch) => {
+export const getLocation = (params) => async (dispatch) => {
   try {
     dispatch({
-      type: "LoadEventRequest",
+      type: "LoadLocationRequest",
     });
-    const { data } = await axiosApiInstance.get(`/events`, {
+    const { data } = await axiosApiInstance.get(`/locations`, {
       params: params,
     });
+    console.log(data);
     dispatch({
-      type: "LoadEventSuccess",
+      type: "LoadLocationSuccess",
       payload: data?.data,
     });
   } catch (error) {
     dispatch({
-      type: "LoadEventFail",
+      type: "LoadLocationFail",
       payload: error?.message,
     });
   }
