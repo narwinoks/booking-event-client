@@ -7,6 +7,7 @@ import {
   ExplorePage,
   ActivationPage,
   EventDetailPage,
+  OrderPage,
 } from "./Routes/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,6 +34,7 @@ function App() {
           element={<ActivationPage></ActivationPage>}
           path="/activation/:activation_token"
         ></Route>
+        <Route element={<OrderPage></OrderPage>} path="/order"></Route>
       </Routes>
       <ToastContainer
         position="bottom-center"

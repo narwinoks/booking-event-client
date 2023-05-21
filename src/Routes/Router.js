@@ -4,6 +4,7 @@ import EventDetailPage from "../Pages/EventDetailPage";
 import RegisterPage from "../Pages/RegisterPage";
 import LoginPage from "../Pages/LoginPage";
 import ActivationPage from "../Pages/ActivationPage";
+import OrderPage from "../Pages/OrderPage";
 export {
   HomePage,
   ExplorePage,
@@ -11,4 +12,5 @@ export {
   RegisterPage,
   LoginPage,
   ActivationPage,
+  OrderPage,
 };
