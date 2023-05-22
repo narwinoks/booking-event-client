@@ -20,7 +20,8 @@ const Main = ({
         <title>{title}</title>
       </Helmet>
       <Header active={activeNavbar} />
-      <main className="min-h-[90vh] bg-[#FAFAFA]">{children}</main>
+      <main className="min-h-[90vh] bg-slate-200">{children}</main>
+      {/*  bg-[#FAFAFA] */}
       <Footer />
     </div>
   );

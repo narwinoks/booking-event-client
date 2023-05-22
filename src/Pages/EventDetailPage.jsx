@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import Main from "../Layouts/Main";
 import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { showEvent } from "../Redux/actions/eventAction";
 import CardDetailTicket from "../Components/CartTicket/CardDetailTicket";
 import parser from "html-react-parser";
+import { useParams } from "react-router-dom";
 
 const EventDetailPage = () => {
   const { slug } = useParams();
@@ -14,9 +14,6 @@ const EventDetailPage = () => {
   useEffect(() => {
     dispatch(showEvent(slug));
   }, [dispatch]);
-
-  console.log(event);
-
   return (
     <>
       {loading ? (
@@ -82,12 +79,15 @@ const EventDetailPage = () => {
                 <div className="grid mt-12">
                   {event.ticket.map((ticket, index) => {
                     return (
-                      <>
+                      // <>
+                      // </>
+                      <div key={index}>
                         <CardDetailTicket
                           key={index}
+                          slug={slug}
                           data={ticket}
                         ></CardDetailTicket>
-                      </>
+                      </div>
                     );
                   })}
                 </div>

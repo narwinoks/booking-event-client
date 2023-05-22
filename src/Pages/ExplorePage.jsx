@@ -19,7 +19,6 @@ const ExplorePage = () => {
   const [maxPrice, setMaxPrice] = useState(300000);
   const [order, setOrder] = useState("date");
 
-  console.log(order);
   useEffect(() => {
     dispatch(
       getEvents({

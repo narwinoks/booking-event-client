@@ -5,20 +5,11 @@ import { FaCheckCircle } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.min.css";
 import Loading from "react-loading";
+import { useParams } from "react-router-dom";
 
-const OrderPage = () => {
-  const [active, setActive] = useState(1);
-  const [total, setTotal] = useState();
+const OrderPage = ({ data, key }) => {
   const [loading, setLoading] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const handleSlideChange = (swiper) => {
-    console.log(swiper);
-    // setLoading(true);
-    // setCurrentSlide(swiper.activeIndex);
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 2000);
-  };
   const handlePrevSlide = () => {
     setLoading(true);
     setTimeout(() => {
@@ -28,7 +19,6 @@ const OrderPage = () => {
       setLoading(false);
     }, 500);
   };
-
   const handleNextSlide = () => {
     setLoading(true);
     setTimeout(() => {

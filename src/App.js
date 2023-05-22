@@ -8,6 +8,7 @@ import {
   ActivationPage,
   EventDetailPage,
   OrderPage,
+  OrderDetailPage,
 } from "./Routes/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -34,7 +35,14 @@ function App() {
           element={<ActivationPage></ActivationPage>}
           path="/activation/:activation_token"
         ></Route>
-        <Route element={<OrderPage></OrderPage>} path="/order"></Route>
+        <Route
+          element={<OrderPage></OrderPage>}
+          path="/order/:slug/package"
+        ></Route>
+        <Route
+          element={<OrderDetailPage></OrderDetailPage>}
+          path="/order-detail"
+        ></Route>
       </Routes>
       <ToastContainer
         position="bottom-center"
