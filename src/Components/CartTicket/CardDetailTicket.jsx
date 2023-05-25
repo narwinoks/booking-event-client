@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const CardDetailTicket = ({ data, slug }) => {
   return (
-    <Link to={`/order/${slug}/package?key=${data.id}`}>
+    <Link to={`/order/${slug}/package?swiper=${data.id}`}>
       <div className="mb-12 mt-2 flex">
         <div className="w-full rounded-md bg-white px-12 py-12 shadow-md">
           <h1 className="mb-5 font-medium">{data.name}</h1>

@@ -8,7 +8,6 @@ export const getLocation = (params) => async (dispatch) => {
     const { data } = await axiosApiInstance.get(`/locations`, {
       params: params,
     });
-    console.log(data);
     dispatch({
       type: "LoadLocationSuccess",
       payload: data?.data,

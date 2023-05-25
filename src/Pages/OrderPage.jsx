@@ -5,20 +5,36 @@ import { FaCheckCircle } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.min.css";
 import Loading from "react-loading";
-import { useLocation, useParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getTicket } from "../Redux/actions/ticketAction";
 
 const OrderPage = () => {
   const { slug } = useParams();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const keyValue = searchParams.get("key");
+  const keyValue = 12;
   const [loading, setLoading] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+  const [swiper, setSwiper] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [searchParams] = useSearchParams();
+
   const { tickets, loadingTicket } = useSelector((state) => state.tickets);
+
+  useEffect(() => {
+    const activeIndexParam = searchParams.get("swiper");
+    const index =
+      tickets && tickets.findIndex((ticket) => ticket.id == activeIndexParam);
+    if (index >= 0) {
+      setActiveIndex(index);
+    }
+  }, [searchParams, tickets]);
 
   useEffect(() => {
     dispatch(
@@ -27,37 +43,33 @@ const OrderPage = () => {
         keyValue,
       })
     );
-  }, []);
-
-  const handlePrevSlide = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setCurrentSlide((prevSlide) =>
-        prevSlide === 0 ? tickets.length - 1 : prevSlide - 1
-      );
-      setLoading(false);
-    }, 500);
-  };
+  }, [dispatch, slug, keyValue]);
 
   useEffect(() => {
-    if (keyValue) {
-      const index =
-        tickets && tickets.findIndex((ticket) => ticket.key === keyValue);
-      if (index !== -1) {
-        setCurrentSlide(index);
-      }
+    if (swiper !== null && activeIndex !== null) {
+      swiper.slideTo(activeIndex, 0);
     }
-  }, [tickets, keyValue]);
+  }, [swiper, activeIndex]);
 
-  console.log(currentSlide);
+  const handlePrevSlide = () => {
+    if (swiper !== null) {
+      swiper.slidePrev();
+    }
+  };
+
   const handleNextSlide = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setCurrentSlide((prevSlide) =>
-        prevSlide === tickets.length - 1 ? 0 : prevSlide + 1
-      );
-      setLoading(false);
-    }, 500);
+    if (swiper !== null) {
+      swiper.slideNext();
+    }
+  };
+
+  const handleSlideChange = () => {
+    if (swiper !== null) {
+      const newIndex = swiper.activeIndex;
+      setActiveIndex(newIndex);
+      searchParams.set("swiper", tickets[newIndex].id);
+      navigate(`?${searchParams.toString()}`);
+    }
   };
 
   return (
@@ -95,28 +107,22 @@ const OrderPage = () => {
               className="bg-white p-3 border-blue-600 rounded-md shadow-md"
               id="content"
             >
-              {loading ? (
+              {loadingTicket ? (
                 <div className="flex justify-center items-center h-64">
                   <Loading type="spin" color="#000" height={50} width={50} />
                 </div>
               ) : (
                 <Swiper
-                  initialSlide={currentSlide}
-                  onSlideChange={(swiper) =>
-                    setCurrentSlide(swiper.activeIndex)
-                  }
-                  spaceBetween={10}
-                  slidesPerView={1}
+                  onSwiper={setSwiper}
+                  onSlideChange={handleSlideChange}
                   navigation
-                  className="mySwiper"
                 >
                   {tickets?.map((slide, index) => (
                     <SwiperSlide key={index}>
                       <div>
                         <div className="py-5">
                           <p className="text-sm font-Poppins font-normal mb-3">
-                            {/* {slide.name} */}
-                            {index}
+                            {slide.name}
                           </p>
                           <p className="text-2xl font-semibold text-red-500">
                             {slide.price}

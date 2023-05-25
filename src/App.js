@@ -9,6 +9,7 @@ import {
   EventDetailPage,
   OrderPage,
   OrderDetailPage,
+  TestingPage,
 } from "./Routes/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -43,6 +44,7 @@ function App() {
           element={<OrderDetailPage></OrderDetailPage>}
           path="/order-detail"
         ></Route>
+        <Route element={<TestingPage></TestingPage>} path="/testing"></Route>
       </Routes>
       <ToastContainer
         position="bottom-center"

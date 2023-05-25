@@ -6,6 +6,7 @@ import LoginPage from "../Pages/LoginPage";
 import ActivationPage from "../Pages/ActivationPage";
 import OrderPage from "../Pages/OrderPage";
 import OrderDetailPage from "../Pages/OrderDetailPage";
+import TestingPage from "../Pages/TestingPage";
 export {
   HomePage,
   ExplorePage,
@@ -15,4 +16,5 @@ export {
   ActivationPage,
   OrderPage,
   OrderDetailPage,
+  TestingPage,
 };
