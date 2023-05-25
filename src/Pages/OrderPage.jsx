@@ -1,58 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Main from "../Layouts/Main";
 import { BsArrowRight, BsArrowLeft } from "react-icons/bs";
 import { FaCheckCircle } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.min.css";
 import Loading from "react-loading";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getTicket } from "../Redux/actions/ticketAction";
 
-const OrderPage = ({ data, key }) => {
+const OrderPage = () => {
+  const { slug } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const keyValue = searchParams.get("key");
   const [loading, setLoading] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const dispatch = useDispatch();
+
+  const { tickets, loadingTicket } = useSelector((state) => state.tickets);
+
+  useEffect(() => {
+    dispatch(
+      getTicket({
+        slug,
+        keyValue,
+      })
+    );
+  }, []);
+
   const handlePrevSlide = () => {
     setLoading(true);
     setTimeout(() => {
       setCurrentSlide((prevSlide) =>
-        prevSlide === 0 ? slides.length - 1 : prevSlide - 1
+        prevSlide === 0 ? tickets.length - 1 : prevSlide - 1
       );
       setLoading(false);
     }, 500);
   };
+
+  useEffect(() => {
+    if (keyValue) {
+      const index =
+        tickets && tickets.findIndex((ticket) => ticket.key === keyValue);
+      if (index !== -1) {
+        setCurrentSlide(index);
+      }
+    }
+  }, [tickets, keyValue]);
+
+  console.log(currentSlide);
   const handleNextSlide = () => {
     setLoading(true);
     setTimeout(() => {
       setCurrentSlide((prevSlide) =>
-        prevSlide === slides.length - 1 ? 0 : prevSlide + 1
+        prevSlide === tickets.length - 1 ? 0 : prevSlide + 1
       );
       setLoading(false);
     }, 500);
   };
-  const slides = [
-    {
-      title: "CAT 2 Zone A1",
-      price: "IDR 125.000",
-      features: [
-        "Informasi Penukaran Tiket",
-        "Tiket Sudah Termasuk",
-        "Syarat Ketentuan",
-      ],
-      description:
-        "Lihat informasi Penukaran Tiket, Tiket Sudah Termasuk, dan Syarat Ketentuan di sini.",
-    },
-    {
-      title: "CAT 2 Zone A1 update",
-      price: "IDR 125.000",
-      features: [
-        "Informasi Penukaran Tiket",
-        "Tiket Sudah Termasuk",
-        "Syarat Ketentuan",
-      ],
-      description:
-        "Lihat informasi Penukaran Tiket, Tiket Sudah Termasuk, dan Syarat Ketentuan di sini.",
-    },
-    // Add more slide data as needed
-  ];
+
   return (
     <Main>
       <div className="max-w-7xl mx-auto py-12 px-4 sm:py-24 sm:px-6 lg:px-8">
@@ -103,12 +110,13 @@ const OrderPage = ({ data, key }) => {
                   navigation
                   className="mySwiper"
                 >
-                  {slides.map((slide, index) => (
+                  {tickets?.map((slide, index) => (
                     <SwiperSlide key={index}>
                       <div>
                         <div className="py-5">
                           <p className="text-sm font-Poppins font-normal mb-3">
-                            {slide.title}
+                            {/* {slide.name} */}
+                            {index}
                           </p>
                           <p className="text-2xl font-semibold text-red-500">
                             {slide.price}
@@ -116,16 +124,23 @@ const OrderPage = ({ data, key }) => {
                         </div>
                         <hr className="justify-center text-gray-500" />
                         <ul className="list-none ml-6 my-4 pb-3">
-                          {slide.features.map((feature, index) => (
-                            <li className="mb-3" key={index}>
-                              <FaCheckCircle className="inline-block mr-2 text-green-500" />
-                              {feature}
-                            </li>
-                          ))}
+                          <li className="mb-3">
+                            <FaCheckCircle className="inline-block mr-2 text-green-500" />
+                            Informasi Penukaran Tiket
+                          </li>
+                          <li className="mb-3">
+                            <FaCheckCircle className="inline-block mr-2 text-green-500" />
+                            Tiket Sudah Termasuk
+                          </li>
+                          <li className="mb-3">
+                            <FaCheckCircle className="inline-block mr-2 text-green-500" />
+                            Syarat Ketentuan
+                          </li>
                         </ul>
                         <hr className="justify-center text-gray-500 pb-3" />
                         <p className="text-sm font-normal text-gray-400">
-                          {slide.description}
+                          Lihat informasi Penukaran Tiket, Tiket Sudah Termasuk,
+                          dan Syarat Ketentuan di sini.
                         </p>
                       </div>
                     </SwiperSlide>
