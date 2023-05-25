@@ -5,34 +5,34 @@ import { FaCheckCircle } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.min.css";
 import Loading from "react-loading";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getTicket } from "../Redux/actions/ticketAction";
+import { addTocart } from "../Redux/actions/orderAction";
 
 const OrderPage = () => {
   const { slug } = useParams();
-  const keyValue = 12;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
   const [swiper, setSwiper] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchParams] = useSearchParams();
-
+  const [date, setDate] = useState("");
+  const [price, setPrice] = useState(0);
+  const [order, setOrder] = useState(1);
+  const [ticketId, setTicketId] = useState(0);
   const { tickets, loadingTicket } = useSelector((state) => state.tickets);
-
   useEffect(() => {
     const activeIndexParam = searchParams.get("swiper");
     const index =
       tickets && tickets.findIndex((ticket) => ticket.id == activeIndexParam);
     if (index >= 0) {
       setActiveIndex(index);
+      const activeSlide = tickets[index];
+      setDate(activeSlide.date);
+      setPrice(activeSlide.price);
+      setTicketId(activeSlide.id);
     }
   }, [searchParams, tickets]);
 
@@ -40,10 +40,9 @@ const OrderPage = () => {
     dispatch(
       getTicket({
         slug,
-        keyValue,
       })
     );
-  }, [dispatch, slug, keyValue]);
+  }, [dispatch, slug]);
 
   useEffect(() => {
     if (swiper !== null && activeIndex !== null) {
@@ -69,7 +68,29 @@ const OrderPage = () => {
       setActiveIndex(newIndex);
       searchParams.set("swiper", tickets[newIndex].id);
       navigate(`?${searchParams.toString()}`);
+      // set value date dll
+      const activeSlide = tickets[newIndex];
+      setDate(activeSlide.date);
+      setPrice(activeSlide.price);
+      setTicketId(activeSlide.id);
     }
+  };
+
+  const handleIncreaseOrder = () => {
+    if (order < 10) {
+      setOrder((prevOrder) => prevOrder + 1);
+    }
+  };
+
+  const handleDecreaseOrder = () => {
+    if (order > 1) {
+      setOrder((prevOrder) => prevOrder - 1);
+    }
+  };
+
+  const handlerNextStep = () => {
+    dispatch(addTocart({ ticket_id: ticketId, order: order }));
+    navigate("/order-detail");
   };
 
   return (
@@ -107,7 +128,7 @@ const OrderPage = () => {
               className="bg-white p-3 border-blue-600 rounded-md shadow-md"
               id="content"
             >
-              {loadingTicket ? (
+              {loading ? (
                 <div className="flex justify-center items-center h-64">
                   <Loading type="spin" color="#000" height={50} width={50} />
                 </div>
@@ -165,8 +186,10 @@ const OrderPage = () => {
                   Date
                 </label>
                 <input
-                  type="date"
+                  type="text"
                   className="block w-full py-4 px-4  placeholder-gray-400 border border-gray-300  rounded-md shadow-sm mt-3 appearance-none focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
                 />
               </div>
             </div>
@@ -177,18 +200,24 @@ const OrderPage = () => {
                     <p className="font-semibold text-xl">Pax</p>
                     <div>
                       <span className="font-bold text-red-400 text-xl text-start m-6">
-                        240.0000
+                        {parseFloat(price).toLocaleString("id-ID")}
                       </span>
-                      <button className="rounded-full bg-blue-700 font-bold text-white px-4 py-2">
+                      <button
+                        className="rounded-full bg-blue-700 font-bold text-white px-4 py-2"
+                        onClick={handleIncreaseOrder}
+                      >
                         +
                       </button>
                       <input
                         type="text"
-                        value="1"
+                        value={order}
                         readOnly
-                        className="hover:border-none mx-2 border-none px-2 py-1 w-6 font-semibold text-xl"
+                        className="hover:border-none mx-2 border-none px-2 py-1 w-10 font-semibold text-xl"
                       />
-                      <button className="rounded-full bg-blue-700 font-bold text-white px-4 py-2">
+                      <button
+                        className="rounded-full bg-blue-700 font-bold text-white px-4 py-2"
+                        onClick={handleDecreaseOrder}
+                      >
                         -
                       </button>
                     </div>
@@ -199,16 +228,21 @@ const OrderPage = () => {
             <div className="bg-gray-100 flex mt-5  h-50 px-4 py-6">
               <div className="w-full py-6 rounded">
                 <div className="flex justify-between px-4">
-                  <p className="font-medium text-xl">Tanggal</p>
-                  <p className="font-medium text-xl">29 jun 2023</p>
+                  <p className="font-medium text-xl">Date</p>
+                  <p className="font-medium text-xl">{date}</p>
                 </div>
                 <hr className="text-black mt-10" />
                 <div className="flex justify-between mt-5">
                   <div className="block">
                     <p className="font-light ">Sub Total</p>
-                    <h3 className="font-bold  text-xl">3.400.000</h3>
+                    <h3 className="font-bold  text-xl">
+                      {parseFloat(order * price).toLocaleString("id-ID")}
+                    </h3>
                   </div>
-                  <button className="bg-blue-700 font-semibold text-white px-8 py-2 rounded">
+                  <button
+                    className="bg-blue-700 font-semibold text-white px-8 py-2 rounded"
+                    onClick={handlerNextStep}
+                  >
                     Order
                   </button>
                 </div>
