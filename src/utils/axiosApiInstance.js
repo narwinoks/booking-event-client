@@ -80,7 +80,6 @@ axiosApiInstance.interceptors.response.use(
 
 const getRefreshToken = () => {
   const refreshToken = localStorage.getItem("refreshToken");
-  console.log(jwtDecode(refreshToken));
   return refreshToken;
 };
 
