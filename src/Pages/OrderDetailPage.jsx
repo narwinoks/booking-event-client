@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Main from "../Layouts/Main";
+import { redirect } from "react-router-dom";
 import { AiOutlineDown } from "react-icons/ai";
 import axiosApiInstance from "../utils/axiosApiInstance";
 const OrderDetailPage = () => {
   const { cart, loadingTicket } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   const [expandedIndex, setExpandedIndex] = useState(0);
+  const [errors, setErrors] = useState({});
   const orders = [];
 
   for (let i = 0; i < cart.order; i++) {
@@ -46,11 +48,10 @@ const OrderDetailPage = () => {
         order: orderData.order,
         order_items: orderData.order_items,
       });
-      console.log(data);
+      window.open(data.snap_url, "_blank");
     } catch (error) {
-      console.log(error);
+      setErrors(error.response.data.errors);
     }
-    console.log(orderData);
   };
 
   const handleOrderItemChange = (e, index) => {
@@ -61,6 +62,7 @@ const OrderDetailPage = () => {
         ...updatedOrderItems[index],
         [name]: value,
         quantity: 1,
+        ticket_id: cart.ticket_id,
       };
       return {
         ...prevState,
@@ -108,12 +110,15 @@ const OrderDetailPage = () => {
                         Title
                       </label>
                       <select
-                        className="focus:shadow-outline rounded border px-4 py-4 font-semibold leading-tight text-gray-700 shadow focus:outline-none"
+                        className={`focus:shadow-outline rounded border px-4 py-4 font-semibold leading-tight text-gray-700 shadow focus:outline-none ${
+                          errors.title ? "border-red-500" : "border-gray-300"
+                        }`}
                         id="title"
                         name="title"
+                        value={orderData.order.title}
                         onChange={handleChange}
                       >
-                        <option value>Title</option>
+                        <option value="">Title</option>
                         <option value="mr">Mr.</option>
                         <option value="mrs">Mrs.</option>
                         <option value="ms">Ms.</option>
@@ -240,13 +245,9 @@ const OrderDetailPage = () => {
                 {orders &&
                   orders.map((order, index) => {
                     const isExpanded = index === expandedIndex;
+                    const orderItem = orderData?.order_items[index] || {};
                     return (
                       <div key={index}>
-                        <input
-                          type="hidden"
-                          value={order.ticket_id}
-                          name="ticket_id"
-                        />
                         <div className="mt-10 border-x-slate-600">
                           <div
                             className="flex cursor-pointer justify-between"
@@ -277,6 +278,7 @@ const OrderDetailPage = () => {
                                       className="focus:shadow-outline rounded border px-4 py-4 font-semibold leading-tight text-gray-700 shadow focus:outline-none"
                                       id="title"
                                       name="title"
+                                      value={orderItem?.title || ""}
                                       required
                                       onChange={(e) =>
                                         handleOrderItemChange(e, index)
@@ -304,6 +306,7 @@ const OrderDetailPage = () => {
                                       id="name"
                                       name="name"
                                       required
+                                      value={orderItem?.name || ""}
                                       onChange={(e) =>
                                         handleOrderItemChange(e, index)
                                       }
@@ -327,6 +330,7 @@ const OrderDetailPage = () => {
                                     required
                                     placeholder="email"
                                     name="email"
+                                    value={orderItem?.email || ""}
                                     onChange={(e) =>
                                       handleOrderItemChange(e, index)
                                     }
@@ -347,7 +351,8 @@ const OrderDetailPage = () => {
                                     className="focus:shadow-outline w-full appearance-none rounded-md border p-4 font-semibold leading-tight text-gray-700 shadow focus:outline-none"
                                     id="name"
                                     placeholder="phone number"
-                                    name="phone number"
+                                    name="phone_number"
+                                    value={orderItem?.phone_number || ""}
                                     onChange={(e) =>
                                       handleOrderItemChange(e, index)
                                     }
@@ -367,6 +372,7 @@ const OrderDetailPage = () => {
                                     className="focus:shadow-outline w-full appearance-none rounded-md border p-4 font-semibold leading-tight text-gray-700 shadow focus:outline-none"
                                     id="name"
                                     required
+                                    value={orderItem?.no_ktp || ""}
                                     placeholder="NO KTP"
                                     name="no_ktp"
                                     onChange={(e) =>
