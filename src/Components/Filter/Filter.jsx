@@ -19,11 +19,13 @@ const Filter = ({
     dispatch(getLocation());
   }, [dispatch]);
   const handlePriceChange = (value) => {
-    setTimeout(() => {
-      setMinPrice(value.min);
-      setMaxPrice(value.max);
-    }, 2000);
     setPriceRange(value);
+  };
+  const handlerSuccessChange = () => {
+    setTimeout(() => {
+      setMinPrice(priceRange.min);
+      setMaxPrice(priceRange.max);
+    }, 2000);
   };
   const handlerLocation = (value) => {
     const newLocations = location.split(",").map((loc) => loc.trim());
@@ -96,6 +98,7 @@ const Filter = ({
             minValue={0}
             value={priceRange}
             onChange={handlePriceChange}
+            onChangeComplete={handlerSuccessChange}
           />
           <div className="flex justify-between">
             <span>IDR {priceRange.min}</span>

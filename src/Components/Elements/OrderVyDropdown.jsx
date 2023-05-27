@@ -11,10 +11,8 @@ const OrderByDropdown = ({ setOrder }) => {
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {
-    setOrder(options[0].toLowerCase());
-  });
   const handleOptionClick = (option) => {
+    console.log(option);
     setSelectedOption(option);
     setOrder(option.toLowerCase());
     setIsOpen(false);

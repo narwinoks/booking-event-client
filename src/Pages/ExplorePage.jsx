@@ -17,7 +17,7 @@ const ExplorePage = () => {
   const dispatch = useDispatch();
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(300000);
-  const [order, setOrder] = useState("date");
+  const [order, setOrder] = useState(null);
 
   useEffect(() => {
     dispatch(
@@ -60,7 +60,6 @@ const ExplorePage = () => {
     setEvent([]);
     setPage(1);
   }, [location, search, date, minPrice, maxPrice, order]);
-
   return (
     <>
       <Main activeNavbar={2}>
