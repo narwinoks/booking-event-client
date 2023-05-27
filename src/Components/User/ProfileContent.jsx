@@ -1,5 +1,7 @@
 import React from "react";
 import EdiProfileContent from "./EdiProfileContent";
+import EditPassword from "./EditPassword";
+import OrderList from "./OrderList";
 
 const ProfileContent = ({ active }) => {
   return (
@@ -9,8 +11,16 @@ const ProfileContent = ({ active }) => {
           <EdiProfileContent></EdiProfileContent>
         </>
       )}
-      {active == 2 && <>content my order</>}
-      {active == 3 && <>change password</>}
+      {active == 2 && (
+        <>
+          <OrderList></OrderList>
+        </>
+      )}
+      {active == 3 && (
+        <>
+          <EditPassword></EditPassword>
+        </>
+      )}
     </div>
   );
 };
