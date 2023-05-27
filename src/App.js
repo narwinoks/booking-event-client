@@ -11,6 +11,7 @@ import {
   OrderDetailPage,
   TestingPage,
   UserProfilePage,
+  UserOrderDetailPage,
 } from "./Routes/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -55,6 +56,14 @@ function App() {
           element={
             <Protected isSignedIn={isAuthenticated}>
               <UserProfilePage />
+            </Protected>
+          }
+        />
+        <Route
+          path="/user-order/:id"
+          element={
+            <Protected isSignedIn={isAuthenticated}>
+              <UserOrderDetailPage />
             </Protected>
           }
         />

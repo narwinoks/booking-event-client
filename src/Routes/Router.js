@@ -8,6 +8,7 @@ import OrderPage from "../Pages/OrderPage";
 import OrderDetailPage from "../Pages/OrderDetailPage";
 import TestingPage from "../Pages/TestingPage";
 import UserProfilePage from "../Pages/UserProfilePage";
+import UserOrderDetailPage from "../Pages/UserOrderDetailPage";
 export {
   HomePage,
   ExplorePage,
@@ -19,4 +20,5 @@ export {
   OrderDetailPage,
   TestingPage,
   UserProfilePage,
+  UserOrderDetailPage,
 };
