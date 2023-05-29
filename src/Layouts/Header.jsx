@@ -1,11 +1,29 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import DropDown from "./DropDown";
+import Search from "./Search";
+import { getEvents } from "../Redux/actions/eventAction";
 
 const Header = ({ active }) => {
   const { user, isAuthenticated } = useSelector((state) => state.user);
+  const { events, loading } = useSelector((state) => state.events);
   const [open, setOpen] = useState(false);
+  const [searchData, setSearchData] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch();
+
+  const handlerSearchOnChange = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    dispatch(
+      getEvents({
+        type: "all",
+        search: term,
+      })
+    );
+    setSearchData(events);
+  };
   return (
     <nav className="bg-gray-800 py-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -62,8 +80,11 @@ const Header = ({ active }) => {
                   className="appearance-none bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none"
                   type="text"
                   placeholder="Search..."
+                  value={searchTerm}
+                  onChange={handlerSearchOnChange}
                 />
               </div>
+              {searchData.length > 0 && <Search events={events}></Search>}
             </form>
             {isAuthenticated ? (
               <>

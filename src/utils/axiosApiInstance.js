@@ -44,9 +44,10 @@ axiosApiInstance.interceptors.request.use(
   async (config) => {
     const accessToken = localStorage.getItem("accessToken");
     config.headers = {
+      ...config.headers,
       Authorization: `${accessToken}`,
       Accept: "application/json",
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json",
     };
     return config;
   },

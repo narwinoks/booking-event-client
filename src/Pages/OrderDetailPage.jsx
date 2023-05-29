@@ -110,9 +110,8 @@ const OrderDetailPage = () => {
                         Title
                       </label>
                       <select
-                        className={`focus:shadow-outline rounded border px-4 py-4 font-semibold leading-tight text-gray-700 shadow focus:outline-none ${
-                          errors.title ? "border-red-500" : "border-gray-300"
-                        }`}
+                        className={`focus:shadow-outline rounded border px-4 py-4 font-semibold leading-tight text-gray-700 shadow focus:outline-none border-gray-300
+                        `}
                         id="title"
                         name="title"
                         value={orderData.order.title}

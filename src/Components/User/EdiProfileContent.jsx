@@ -1,7 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlineCamera } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import { RxAvatar } from "react-icons/rx";
+import axiosApiInstance from "../../utils/axiosApiInstance";
+import { toast } from "react-toastify";
+
 const EdiProfileContent = () => {
-  const handleImage = () => {};
+  const { user, isAuthenticated } = useSelector((state) => state.user);
+  const [username, setUsername] = useState(user?.username || "");
+  const [email, setEmail] = useState(user?.email || "");
+  const [avatar, setAvatar] = useState(user?.avatar || "");
+  const [avatarChange, setAvatarChange] = useState(false);
+
+  const handleImage = async (e) => {
+    const file = e.target.files[0];
+    setAvatar(file);
+
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    await axiosApiInstance
+      .post(`/user/change-avatar`, formData, config)
+      .then((data) => {
+        window.location.reload();
+        toast.success("Update Avatar Success");
+      })
+      .catch((error) => {
+        toast.error(error.response.data.errors.avatar);
+      });
+  };
+
   return (
     <div className=" justify-center w-full bg-[#fff] px-4 rounded py-5">
       <div className="grid">
@@ -12,29 +45,42 @@ const EdiProfileContent = () => {
       </div>
       <div className="flex justify-center w-full">
         <div className="relative">
-          <img
-            src="https://placehold.co/400"
-            className="w-[70px] h-[70px] rounded-full object-cover border-[3px] border-[#3ad132]"
-            alt="image-profile-1"
-          />
-          <div className="w-[30px] h-[30px] bg-[#E3E9EE] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]">
-            <input
-              type="file"
-              id="image"
-              className="hidden"
-              onChange={handleImage}
+          {avatarChange ? (
+            <img
+              src={URL.createObjectURL(avatar)}
+              className="w-[70px] h-[70px] rounded-full object-cover border-[3px] border-[#3ad132]"
+              alt="image-profile-1"
             />
-            <label htmlFor="image">
+          ) : (
+            <img
+              src={avatar}
+              className="w-[70px] h-[70px] rounded-full object-cover border-[3px] border-[#3ad132]"
+              alt="image-profile-1"
+            />
+          )}
+          <div className="w-[30px] h-[30px] bg-[#E3E9EE] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]">
+            <label htmlFor="image-upload">
+              <input
+                type="file"
+                id="image-upload"
+                accept=".jpg,.jpeg,.png"
+                onChange={handleImage}
+                className="sr-only"
+              />
               <AiOutlineCamera />
             </label>
           </div>
         </div>
       </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8 py-4 justify-center px-8">
         <div>
           <div className=" bg-white rounded-md shadow shadow-slate-300 w-full">
             <div className="px-4 py-4">
-              <label htmlFor="" className="font-Poppins text-xl font-normal">
+              <label
+                htmlFor="email"
+                className="font-Poppins text-xl font-normal"
+              >
                 Email
               </label>
               <p className="font-Poppins text-sm font-light mt-3">
