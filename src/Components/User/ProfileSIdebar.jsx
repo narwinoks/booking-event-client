@@ -8,8 +8,10 @@ import {
   AiOutlineShopping,
 } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { useSelector } from "react-redux";
 
 const ProfileSIdebar = ({ active, setActive }) => {
+  const { user, isAuthenticated } = useSelector((state) => state.user);
   const handleImage = () => {};
   const handlerLogout = () => {};
   return (
