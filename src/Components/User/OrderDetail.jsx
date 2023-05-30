@@ -34,7 +34,7 @@ const OrderDetail = () => {
             ORDER ID #{order?.id}
           </h2>
           <p className="text-sm font-Poppins font-light">
-            Here you can update your password
+            Here you can see your order detail
           </p>
         </div>
         <Link to={"/profile"}>
