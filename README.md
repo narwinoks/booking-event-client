@@ -28,7 +28,7 @@ Booking App web with react for the frontend view
 Clone the project
 
 ```bash
-  git clone https://github.com/narwinoks/MERN-Stack-E-commerce-Client/](https://github.com/narwinoks/booking-event-client.git
+  git clone https://github.com/narwinoks/MERN-Stack-E-commerce-Client/
 ```
 
 Go to the project directory
@@ -43,10 +43,10 @@ Install dependencies
   npm install
 ```
 
-Start the server
+Open Server.js
 
 ```bash
-  npm run start
+  export const server = "<yOUR DOMAIN>/api/V1";
 ```
 
 Start the server
@@ -54,4 +54,9 @@ Start the server
 ```bash
   npm run start
 ```
+
+## BACKEND API
+
+[BACKEND API](https://github.com/narwinoks/booking-event-server)
+
 
