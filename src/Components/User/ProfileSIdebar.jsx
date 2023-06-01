@@ -1,41 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { RxPerson } from "react-icons/rx";
+import axiosApiInstance from "../../utils/axiosApiInstance";
 import {
-  AiOutlineArrowRight,
   AiOutlineCamera,
-  AiOutlineDelete,
   AiOutlineLogin,
   AiOutlineShopping,
 } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ProfileSIdebar = ({ active, setActive }) => {
   const { user, isAuthenticated } = useSelector((state) => state.user);
+  const [avatar, setAvatar] = useState(user?.avatar || "");
+  const navigate = useNavigate();
   const handleImage = () => {};
-  const handlerLogout = () => {};
+  const handlerLogout = async (e) => {
+    try {
+      const data = await axiosApiInstance.delete("/auth/logout");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      toast.success("Logout Success !");
+      navigate("/");
+      window.location.reload(true);
+    } catch (error) {
+      toast.error(error.response.message);
+    }
+  };
   return (
     <div className="w-full bg-white shadow-sm rounded-[10px] p-4 pt-8">
       <div className="lg:flex sm:hidden justify-center items-center w-full mb-8">
         <div className="lg:relative">
           <img
-            src="https://placehold.co/400"
+            src={avatar}
             className="w-[100px] h-[100px] rounded-full object-cover border-[3px] border-[#3ad132] hidden sm:block"
             alt="image-profile-1"
           />
-          <div
-            className={`w-[30px] h-[30px] bg-[#E3E9EE] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]  sm:flex`}
-          >
-            <input
-              type="file"
-              id="image"
-              className="hidden"
-              onChange={handleImage}
-            />
-            <label htmlFor="image">
-              <AiOutlineCamera />
-            </label>
-          </div>
         </div>
       </div>
       <div

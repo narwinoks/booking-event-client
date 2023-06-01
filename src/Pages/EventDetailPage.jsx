@@ -6,10 +6,12 @@ import { showEvent } from "../Redux/actions/eventAction";
 import CardDetailTicket from "../Components/CartTicket/CardDetailTicket";
 import parser from "html-react-parser";
 import { useParams } from "react-router-dom";
+import AlertAuth from "../Components/Elements/AlertAuth";
 
 const EventDetailPage = () => {
   const { slug } = useParams();
   const { event, loading } = useSelector((state) => state.events);
+  const { user, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(showEvent(slug));
@@ -79,8 +81,6 @@ const EventDetailPage = () => {
                 <div className="grid mt-12">
                   {event.ticket.map((ticket, index) => {
                     return (
-                      // <>
-                      // </>
                       <div key={index}>
                         <CardDetailTicket
                           key={index}
@@ -92,6 +92,7 @@ const EventDetailPage = () => {
                   })}
                 </div>
               </div>
+              {isAuthenticated == false && <AlertAuth></AlertAuth>}
             </Main>
           </>
         )

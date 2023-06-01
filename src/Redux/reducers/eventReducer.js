@@ -31,4 +31,17 @@ export const eventReducer = createReducer(initialState, {
     state.error = action.payload;
     state.isAuthenticated = false;
   },
+  getEventTicketRequest: (state) => {
+    state.loading = true;
+  },
+  getEventTicketSuccess: (state, action) => {
+    state.isAuthenticated = true;
+    state.loading = false;
+    state.event = action.payload;
+  },
+  getEventTicketFail: (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+    state.isAuthenticated = false;
+  },
 });
