@@ -12,6 +12,7 @@ import {
   TestingPage,
   UserProfilePage,
   UserOrderDetailPage,
+  CheckInPage,
 } from "./Routes/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -56,6 +57,14 @@ function App() {
           element={
             <Protected isSignedIn={isAuthenticated}>
               <UserProfilePage />
+            </Protected>
+          }
+        />
+        <Route
+          path="/check-in"
+          element={
+            <Protected isSignedIn={isAuthenticated}>
+              <CheckInPage />
             </Protected>
           }
         />

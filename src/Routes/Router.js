@@ -9,6 +9,7 @@ import OrderDetailPage from "../Pages/OrderDetailPage";
 import TestingPage from "../Pages/TestingPage";
 import UserProfilePage from "../Pages/UserProfilePage";
 import UserOrderDetailPage from "../Pages/UserOrderDetailPage";
+import CheckInPage from "../Pages/CheckInPage";
 export {
   HomePage,
   ExplorePage,
@@ -21,4 +22,5 @@ export {
   TestingPage,
   UserProfilePage,
   UserOrderDetailPage,
+  CheckInPage,
 };

@@ -76,7 +76,8 @@ const OrderDetail = () => {
                     <span className="font-bold">{items.name}:</span>
                     <a
                       href={items.file ?? "#"}
-                      className="ml-2 underline text-blue-600"
+                      download
+                      className="ml-2 underline text-blue-600 cursor-pointer"
                     >
                       {items.file ? "Download" : "Pending"}
                     </a>

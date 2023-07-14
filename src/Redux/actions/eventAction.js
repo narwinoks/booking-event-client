@@ -57,3 +57,20 @@ export const getEventTicket = (id) => async (dispatch) => {
     });
   }
 };
+export const getEventActive = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getEventActiveRequest",
+    });
+    const { data } = await axiosApiInstance.get(`/events/active`);
+    dispatch({
+      type: "getEventActiveSuccess",
+      payload: data?.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getEventActiveFail",
+      payload: error?.message,
+    });
+  }
+};

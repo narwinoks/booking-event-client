@@ -1,6 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 const initialState = {
   loading: false,
+  loadingEvent: false,
 };
 
 export const eventReducer = createReducer(initialState, {
@@ -41,6 +42,19 @@ export const eventReducer = createReducer(initialState, {
   },
   getEventTicketFail: (state, action) => {
     state.loading = false;
+    state.error = action.payload;
+    state.isAuthenticated = false;
+  },
+  getEventActiveRequest: (state) => {
+    state.loadingEvent = true;
+  },
+  getEventActiveSuccess: (state, action) => {
+    state.isAuthenticated = true;
+    state.loadingEvent = false;
+    state.event = action.payload;
+  },
+  getEventActiveFail: (state, action) => {
+    state.loadingEvent = false;
     state.error = action.payload;
     state.isAuthenticated = false;
   },

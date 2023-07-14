@@ -4,6 +4,7 @@ import { locationReducer } from "./reducers/locationReducer";
 import { userReducer } from "./reducers/userReducer";
 import { ticketReducer } from "./reducers/ticketReducer";
 import { cartReducer } from "./reducers/orderRedunce";
+import { checkInReducer } from "./reducers/checkInReducer";
 
 const Store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const Store = configureStore({
     locations: locationReducer,
     tickets: ticketReducer,
     cart: cartReducer,
+    checkIn: checkInReducer,
   },
 });
 
